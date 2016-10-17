@@ -1,0 +1,193 @@
+---
+title: "Project 3"
+author: "Team"
+date: "October 17, 2016"
+output: html_document
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+##  Introduction:
+### Doing Web Scrapping for the Data Scientists' Skill Set
+### Sources: http://www.kdnuggets.com
+### KDnugget is a leading site on Business Analytics, Big Data, Data Mining, and Data Science, and is managed by Gregory Piatetsky-Shapiro, a leading expert in the field.
+ 
+```{r Web_Scraping_with_R}
+ 
+list.of.packages <- c("rvest","plyr","stringr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+ 
+library(rvest)
+library(plyr)
+library(stringr)
+ 
+##############################################################################################################
+# Dataframe 1
+# How to Become a Data Scientist
+# Filtered by <Strong></Strong>
+ 
+DSS1={}
+ 
+Pages = c("http://www.kdnuggets.com/2016/08/become-data-scientist-part-1.html",
+          "http://www.kdnuggets.com/2016/08/become-data-scientist-part-1.html/2",
+          "http://www.kdnuggets.com/2016/08/become-data-scientist-part-1.html/3",
+          "http://www.kdnuggets.com/2016/08/become-data-scientist-part-1.html/4"
+        )
+ 
+for(i in 1:4){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("strong") %>% html_text()
+  DSS1 <- rbind(DSS1,data.frame(Skill))
+  }
+DSS1<-subset(DSS1, Skill!="Next post" & Skill!="Previous post")
+DSS1
+ 
+##############################################################################################################
+# Dataframe 2
+# 10 Must Have Data Science Skills, Updated
+# Filtered by <p><b></b></p>
+ 
+DSS2={}
+ 
+Pages = c("http://www.kdnuggets.com/2016/05/10-must-have-skills-data-scientist.html",
+          "http://www.kdnuggets.com/2016/05/10-must-have-skills-data-scientist.html/2"
+         )
+for(i in 1:2){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("p") %>% html_nodes("b") %>% html_text()
+  DSS2 <- rbind(DSS2,data.frame(Skill))
+  }
+DSS2<-subset(DSS2, Skill!="Next post" & Skill!="Previous post" & Skill!="Additional Resources" & Skill!="Related" & Skill!="data scientist" & Skill!="somewhere" & Skill!="do" & Skill!="any")
+DSS2
+ 
+##############################################################################################################
+# Dataframe 3
+# 3 ways to become a better Data Scientist
+# Filtered by <p><em></em></p>
+ 
+DSS3={}
+ 
+Pages = c("http://www.kdnuggets.com/2016/04/odsc-east-2016-journey-data-scientist.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("p") %>% html_nodes("em") %>% html_text()
+  DSS3 <- rbind(DSS3,data.frame(Skill))
+  }
+DSS3
+ 
+##############################################################################################################
+# Dataframe 4
+# Software development skills for data scientists
+# Filtered by <h3></h3>
+
+DSS4={}
+ 
+Pages = c("http://www.kdnuggets.com/2015/12/software-development-skills-data-scientists.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("h3") %>% html_text()
+  DSS4 <- rbind(DSS4,data.frame(Skill))
+}
+DSS4<-subset(DSS4, Skill!="Latest News, Stories" & Skill!="Conclusion" & Skill!="More Recent Stories")
+DSS4
+ 
+##############################################################################################################
+# Dataframe 5
+# Practical skills that practical data scientists need
+# Filtered by <h4></h4>
+
+DSS5={}
+ 
+Pages = c("http://www.kdnuggets.com/2016/05/practical-skills-practical-data-scientists-need.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("h4") %>% html_text()
+  DSS5 <- rbind(DSS5,data.frame(Skill))
+  }
+DSS5
+ 
+##############################################################################################################
+# Dataframe 6
+# Unicorn Data Scientists vs Data Science Teams
+# Filtered by class="three_ul" and <li></li>"
+
+DSS6={}
+ 
+Pages = c("http://www.kdnuggets.com/2013/12/unicorn-data-scientists-vs-data-science-teams-discussion.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes(css=".three_ul") %>% html_nodes("li") %>% html_text()
+  Skill=str_replace(Skill,"\n","")
+  DSS6 <- rbind(DSS6,data.frame(Skill))
+}
+DSS6<-subset(DSS6, Skill!=" etc.")
+DSS6
+ 
+##############################################################################################################
+# Dataframe 7
+# 9 Must-Have Skills You Need to Become a Data Scientist
+# Filtered by class="three_ol" and <strong></strong>"
+ 
+DSS7={}
+ 
+Pages = c("http://www.kdnuggets.com/2014/11/9-must-have-skills-data-scientist.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes(css=".three_ol") %>% html_nodes("strong") %>% html_text()
+  Skill=str_replace(Skill,"\n","")
+  DSS7 <- rbind(DSS7,data.frame(Skill))
+}
+DSS7<-subset(DSS7, Skill!=" etc." & Skill!="Advanced Degree" & Skill!="MOOCs" & Skill!="Certifications" & Skill!="Bootcamps" & Skill!="Kaggle" & Skill!="LinkedIn Groups" & Skill!="Data Science Central and KDnuggets" & Skill!="The Burtch Works Study: Salaries of Data Scientist")
+DSS7
+ 
+##############################################################################################################
+# Dataframe 8
+# Data Science Skills for 2016
+# Filtered by  <p> and <strong></strong>"
+ 
+DSS8={}
+ 
+Pages = c("http://www.kdnuggets.com/2016/02/data-science-skills-2016.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("p") %>% html_nodes("strong") %>% html_text()
+  DSS8 <- rbind(DSS8,data.frame(Skill))
+}
+DSS8<-subset(DSS8, Skill!=" Fig 1.  Most Common Data Science Job skills, according to Crowdflower" & Skill!="Related:")
+DSS8
+ 
+##############################################################################################################
+# Dataframe 9
+# How to become a Data Scientist for Free
+# Filtered by <h3></h3>"
+ 
+DSS9={}
+ 
+Pages = c("http://www.kdnuggets.com/2015/08/how-become-data-scientist-free.html")
+for(i in 1:1){
+  Data_Science_Skills =read_html(Pages[i])
+  Skill=Data_Science_Skills %>%   html_nodes("h3") %>% html_text()
+  DSS9 <- rbind(DSS9,data.frame(Skill))
+}
+DSS9<-subset(DSS9, Skill!="Latest News, Stories" & Skill!="More Recent Stories")
+DSS9
+ 
+##############################################################################################################
+# Combined all 9 Dataframe into 1
+ 
+DSS10=rbind.fill(DSS1,DSS2,DSS3,DSS4,DSS5,DSS6,DSS7,DSS8,DSS9)
+DSS10
+ 
+```
+ 
+```{r Conclusion, echo=FALSE}
+ 
+##  Conclusion
+### Scraping from 9 articles related to Data Scientists' Skill set
+### Found 81 skill sets (include duplicate and irrelvant rows)
+ 
+```
+ 
