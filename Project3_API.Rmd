@@ -1,0 +1,150 @@
+---
+title: "Project3_API"
+author: "Team"
+date: "October 18, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r API}
+# Introduction
+# Passing 107 Skill set to Dice.com API to get the job title, company name
+
+# JSON :
+
+json_file=c(
+
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Owning Up To The Title",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Problem Solving",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Statistics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Machine Learning",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Computing",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Wrangling",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Tools and Technology",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Communication",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Business Acumen",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Rock Stars",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Other Scientific Disciplines",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Statistics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Computer Science",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Software Engineering",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Mathematics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=The Blank Canvas",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Education",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Intellectual Curiosity",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Domain Knowledge",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Communication Skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Career Mapping",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Goals",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Coding Skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Mining Skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Big Data Processing Platforms",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Hadoop",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Spark",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Flink",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Structured Data (SQL)",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Unstructured Data (3-5 top NoSQL DBs)",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Knowledge",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Open Source data science tools",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Exposure",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Writing modular",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=reusable code",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Documentation",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=commenting",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Version control",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Testing",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Logging",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=understand the business and the problem",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Understanding the data",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=SQL skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Basic math skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Slightly more advanced math concepts",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Advanced Analysis",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Math",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Stats",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Pattern Recognition/",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Learning",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Uncertainty",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Computer Systems",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Advanced Computing",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=High Performance Computing",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Mining",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Bases",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Engineering",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Warehousing.",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Basic CS",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Software Development",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Tools",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Engineering",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Distributed Computing",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Scientific Training",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Mathematics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Modeling",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Theory",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Machine Learning",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Business Analytics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Graph Mining",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Network Intelligence",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Text Mining",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Information Retrieval",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Visualization",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Finance",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Consumer Internet",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Oil & Gas",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Bioinformatics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Physics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Advertising",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Education",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=SAS",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Python Coding",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Hadoop Platform",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=SQL Database",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Coding",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Unstructured data",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Intellectual curiosity",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Business acumen",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Communication skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=SQL",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Visualization",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Communication Skills",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Hadoop",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Spark",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Python",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Statistics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=R",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Creativity",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Python",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Machine Learning",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=R Language",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Big Data",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Statistics",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Data Mining",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=SQL",
+"http://service.dice.com/api/rest/jobsearch/v1/simple.json?skill=Java"
+)
+length(json_file)
+
+list.of.packages <- c("XML","RCurl","jsonlite", "methods")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+library(XML)
+library(RCurl)
+library(jsonlite)
+library("methods")
+
+# Read  records from the JSON and export to CSV
+for(i in 1 : length(json_file)){
+  jsondoc <- fromJSON(txt=json_file[i])
+  write.table(jsondoc, file = "/Users/fionaho/Desktop/API.csv", append = TRUE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
+  print(i)
+}
+```
+
